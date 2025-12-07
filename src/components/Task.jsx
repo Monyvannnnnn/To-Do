@@ -7,7 +7,7 @@ export default function Task({ tasks, onDelete, onComplete }) {
 
   return (
     <>
-      <div className="max-w-[700px] flex mx-auto justify-between mt-10 mb-10">
+      <div className="max-w-[540px] flex mx-auto justify-between mt-10 mb-10">
         {" "}
         <div className="flex ">
           <p className="text-white ">Create Task:</p>
