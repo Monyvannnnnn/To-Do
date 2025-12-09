@@ -1,77 +1,153 @@
-import React from "react";
-import { AiOutlineMenuFold } from "react-icons/ai";
+import React, { useState } from "react";
+import {
+  AiOutlineMenuFold,
+  AiOutlineDelete,
+  AiOutlineMenuUnfold,
+} from "react-icons/ai";
 import { CiSearch } from "react-icons/ci";
 import { FaLayerGroup } from "react-icons/fa";
 import { MdOutlineNoteAlt } from "react-icons/md";
-import { AiOutlineMenuUnfold } from "react-icons/ai";
+import { IoIosAddCircleOutline } from "react-icons/io";
 
-export default function Sidebar({ isOpen, onToggle }) {
+export default function Sidebar({
+  isOpen,
+  onToggle,
+  currentView,
+  setCurrentView,
+  setSearchTerm,
+  groups,
+  onAddGroup,
+  onDeleteGroup,
+  setSelectedGroup,
+}) {
+  const [newGroupName, setNewGroupName] = useState("");
+
+  const handleItemClick = (itemType) => {
+    setCurrentView(itemType);
+    if (itemType !== "search") {
+      setSearchTerm("");
+    }
+    if (itemType === "group") {
+      setSelectedGroup(null);
+    }
+  };
+
+  const handleAddGroup = () => {
+    if (newGroupName.trim()) {
+      onAddGroup(newGroupName);
+      setNewGroupName("");
+    }
+  };
+
+  const handleGroupClick = (groupId) => {
+    setCurrentView("group");
+    setSelectedGroup(groupId);
+  };
+
   return (
-    // 1. IMPROVED: Added bg-gray-900 and fixed position/z-index for typical sidebar use
-    // 2. WIDTTH: w-64 is 256px, w-20 is 80px.
     <div
-      className={`h-screen  fixed left-0 top-0 z-10 text-white transition-all duration-300 ${
-        isOpen ? "w-55" : "w-16"
-      } border-r border-white`}
+      className={`h-screen fixed left-0 top-0 z-10 text-white transition-all duration-300 ${
+        isOpen ? "w-64" : "w-14"
+      } bg-gray-900 border-r border-gray-700`}
     >
-      {/* HEADER SECTION: Title and Toggle Button */}
       <div className="flex items-center justify-between p-4 h-16">
-        {/* Only show title when open, with text truncation and overflow hidden */}
-        {isOpen && <h1 className="text-white text-xl  truncate">To Do List</h1>}
-
-        {/* Toggle button always visible and centered */}
-        {/* 🔑 CONDITIONAL RENDERING FOR ICONS */}
-        {isOpen ? (
-          // Show FOLD icon (to close sidebar) when sidebar IS open
-          <AiOutlineMenuFold
-            className={`text-white cursor-pointer text-2xl `}
-            onClick={onToggle}
-          />
-        ) : (
-          // Show UNFOLD icon (to open sidebar) when sidebar IS NOT open
-          <AiOutlineMenuUnfold
-            className={`text-white cursor-pointer text-2xl  mx-auto`}
-            onClick={onToggle}
-          />
-        )}
-      </div>{" "}
-      {/* MENU LIST */}
+        {isOpen && <h1 className="text-white text-xl truncate">To Do List</h1>}
+        <button onClick={onToggle} className="text-white focus:outline-none">
+          {isOpen ? (
+            <AiOutlineMenuFold className="text-2xl" />
+          ) : (
+            <AiOutlineMenuUnfold className="text-2xl mx-auto" />
+          )}
+        </button>
+      </div>
       <ul className="pt-4 cursor-pointer">
-        {/* 3. ALIGNMENT FIX: Use relative and absolute positioning to center icons when closed. */}
-        <li className="p-4 hover:bg-white hover:text-black flex items-center relative whitespace-nowrap overflow-hidden duration-300">
-          <CiSearch className="text-2xl" />
-          {/* Text is positioned absolutely and fades in/out */}
-          <span
-            className={`ml-4 absolute left-12 ${
-              isOpen ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Search
-          </span>
-        </li>
-
-        <li className="p-4 hover:bg-white hover:text-black flex items-center relative whitespace-nowrap overflow-hidden duration-300">
-          <FaLayerGroup className="text-2xl" />
-          <span
-            className={`ml-4 absolute left-12 ${
-              isOpen ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Group List
-          </span>
-        </li>
-
-        <li className="p-4 hover:bg-white hover:text-black flex items-center relative whitespace-nowrap overflow-hidden duration-300">
-          <MdOutlineNoteAlt className="text-2xl" />
-          <span
-            className={`ml-4 absolute left-12 ${
-              isOpen ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Completed
-          </span>
-        </li>
+        <NavItem
+          isOpen={isOpen}
+          currentView={currentView}
+          viewType="search"
+          onClick={() => handleItemClick("search")}
+          icon={<CiSearch className="text-2xl" />}
+          label="Search"
+        />
+        <NavItem
+          isOpen={isOpen}
+          currentView={currentView}
+          viewType="addtask"
+          onClick={() => handleItemClick("addtask")}
+          icon={<IoIosAddCircleOutline className="text-2xl" />}
+          label="Add Task"
+        />
+        <NavItem
+          isOpen={isOpen}
+          currentView={currentView}
+          viewType="group"
+          onClick={() => handleItemClick("group")}
+          icon={<FaLayerGroup className="text-2xl" />}
+          label="Group List"
+        />
+        <div className="px-4 py-2">
+          {isOpen && (
+            <div className="flex items-center mt-4">
+              <input
+                type="text"
+                value={newGroupName}
+                onChange={(e) => setNewGroupName(e.target.value)}
+                placeholder="New Group"
+                className="bg-gray-800 border border-gray-600 p-2 w-full  focus:outline-none"
+              />
+              <button
+                onClick={handleAddGroup}
+                className="p-2 border border-gray-600 bg-gray-600 hover:bg-gray-700 "
+              >
+                Add
+              </button>
+            </div>
+          )}
+          <ul className="mt-4 space-y-2">
+            {groups.map((group) => (
+              <li
+                key={group.id}
+                className="flex justify-between items-center p-2 hover:bg-gray-700 rounded-md"
+              >
+                <span
+                  onClick={() => handleGroupClick(group.id)}
+                  className="truncate w-full"
+                >
+                  {isOpen ? group.name : ""}
+                </span>
+                {isOpen && (
+                  <button
+                    onClick={() => onDeleteGroup(group.id)}
+                    className="text-white hover:text-black"
+                  >
+                    <AiOutlineDelete />
+                  </button>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <NavItem
+          isOpen={isOpen}
+          currentView={currentView}
+          viewType="completed"
+          onClick={() => handleItemClick("completed")}
+          icon={<MdOutlineNoteAlt className="text-2xl" />}
+          label="Completed"
+        />
       </ul>
     </div>
   );
 }
+
+const NavItem = ({ isOpen, currentView, viewType, onClick, icon, label }) => (
+  <li
+    className={`p-4 flex items-center relative whitespace-nowrap overflow-hidden duration-300 hover:bg-gray-600 ${
+      currentView === viewType ? "bg-gray-700" : ""
+    }`}
+    onClick={onClick}
+  >
+    {icon}
+    {isOpen && <span className="ml-4">{label}</span>}
+  </li>
+);

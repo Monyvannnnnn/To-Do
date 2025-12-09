@@ -1,35 +1,46 @@
 import React from "react";
 import Todo from "./Todo";
 
-export default function Task({ tasks, onDelete, onComplete }) {
+export default function Task({
+  tasks,
+  onDelete,
+  onComplete,
+  currentView,
+  groups,
+}) {
   const tasksQuantity = tasks.length;
   const completedTasks = tasks.filter((task) => task.isCompleted).length;
 
   return (
-    <>
-      <div className="max-w-[540px] flex mx-auto justify-between mt-10 mb-10">
-        {" "}
-        <div className="flex ">
-          <p className="text-white ">Create Task:</p>
-          <span className="text-black bg-white px-2 ml-2">{tasksQuantity}</span>
+    <div className="bg-gray-800 border p-6 mt-8">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <p className="text-lg font-semibold text-white">
+            Tasks:{" "}
+            <span className="text-white">{tasksQuantity}</span>
+          </p>
         </div>
-        <div className="flex">
-          <p className="text-white">Completed:</p>
-          <span className="text-black bg-white px-2 ml-2">
-            {completedTasks} of {tasksQuantity}
-          </span>
+        <div>
+          <p className="text-lg font-semibold text-white">
+            Completed:{" "}
+            <span className="text-white">
+              {completedTasks} of {tasksQuantity}
+            </span>
+          </p>
         </div>
       </div>
-      <div className="">
+      <div className="space-y-4">
         {tasks.map((task) => (
           <Todo
             key={task.id}
             task={task}
             onDelete={onDelete}
             onComplete={onComplete}
+            currentView={currentView}
+            groups={groups}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 }
