@@ -68,7 +68,7 @@ export default function Header({
         <input
           type="text"
           placeholder={getPlaceholder()}
-          className="placeholder:text-gray-400 border border-white bg-transparent text-white w-full p-3  focus:outline-none focus:ring-2 focus:ring-gray-500"
+          className="placeholder:text-gray-400 border border-gray-600 bg-transparent text-white w-full p-3  focus:outline-none focus:ring-2 focus:ring-gray-500"
           value={inputValue}
           onChange={handleChange}
         />
@@ -76,7 +76,7 @@ export default function Header({
           <select
             value={selectedGroup}
             onChange={(e) => setSelectedGroup(e.target.value)}
-            className="border border-white bg-gray-800 text-white py-3.5 w-full sm:w-auto "
+            className="border border-gray-600 bg-gray-800/50 text-white py-3.5 w-full sm:w-auto "
           >
             <option value="">Select a group</option>
             {groups.map((group) => (
@@ -87,7 +87,7 @@ export default function Header({
           </select>
         )}
         <button
-          className="flex items-center justify-center bg-gray-800 text-white px-6 py-3  w-full border transition duration-300 hover:bg-gray-700 disabled:bg-gray-500 "
+          className="flex items-center justify-center  text-white px-6 py-3  w-full border border-gray-600 transition duration-300 hover:bg-gray-700/50 disabled:bg-gray-800/50 cursor-pointer "
           disabled={currentView === "addtask" && !title.trim()}
         >
           {getButtonText()} <IoIosAddCircle className="ml-2" />

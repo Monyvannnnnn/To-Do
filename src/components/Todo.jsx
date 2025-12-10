@@ -3,7 +3,13 @@ import { FaRegCheckCircle } from "react-icons/fa";
 import { MdDeleteOutline } from "react-icons/md";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 
-export default function Todo({ task, onDelete, onComplete, currentView, groups }) {
+export default function Todo({
+  task,
+  onDelete,
+  onComplete,
+  currentView,
+  groups,
+}) {
   const [isFadingOut, setIsFadingOut] = useState(false);
 
   useEffect(() => {
@@ -19,7 +25,7 @@ export default function Todo({ task, onDelete, onComplete, currentView, groups }
 
   return (
     <div
-      className={`text-white flex justify-between max-w-[540px] border p-3 mx-auto 
+      className={`text-white flex justify-between max-w-[540px] border border-gray-600 p-3 mx-auto 
                   transition-all duration-500 ease-out mb-4
                   ${
                     isFadingOut

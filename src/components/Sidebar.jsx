@@ -46,9 +46,9 @@ export default function Sidebar({
 
   return (
     <div
-      className={`h-screen fixed left-0 top-0 z-10 text-white transition-all duration-300 ${
+      className={`content-wrapper h-screen fixed left-0 top-0 z-10 text-white transition-all duration-300 ${
         isOpen ? "w-64" : "w-14"
-      } bg-gray-900 border-r border-gray-700`}
+      } border-r border-gray-600`}
     >
       <div className="flex items-center justify-between p-4 h-16">
         {isOpen && <h1 className="text-white text-xl truncate">To Do List</h1>}
@@ -80,6 +80,14 @@ export default function Sidebar({
         <NavItem
           isOpen={isOpen}
           currentView={currentView}
+          viewType="completed"
+          onClick={() => handleItemClick("completed")}
+          icon={<MdOutlineNoteAlt className="text-2xl" />}
+          label="Completed"
+        />
+        <NavItem
+          isOpen={isOpen}
+          currentView={currentView}
           viewType="group"
           onClick={() => handleItemClick("group")}
           icon={<FaLayerGroup className="text-2xl" />}
@@ -93,11 +101,11 @@ export default function Sidebar({
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
                 placeholder="New Group"
-                className="bg-gray-800 border border-gray-600 p-2 w-full  focus:outline-none"
+                className=" border border-gray-600 p-2 w-full  focus:outline-none"
               />
               <button
                 onClick={handleAddGroup}
-                className="p-2 border border-gray-600 bg-gray-600 hover:bg-gray-700 "
+                className="p-2 border border-gray-600 hover:bg-gray-800/50"
               >
                 Add
               </button>
@@ -107,7 +115,7 @@ export default function Sidebar({
             {groups.map((group) => (
               <li
                 key={group.id}
-                className="flex justify-between items-center p-2 hover:bg-gray-700 rounded-md"
+                className="flex justify-between items-center p-2 hover:bg-gray-800"
               >
                 <span
                   onClick={() => handleGroupClick(group.id)}
@@ -118,7 +126,7 @@ export default function Sidebar({
                 {isOpen && (
                   <button
                     onClick={() => onDeleteGroup(group.id)}
-                    className="text-white hover:text-black"
+                    className="text-white hover:text-white"
                   >
                     <AiOutlineDelete />
                   </button>
@@ -127,14 +135,6 @@ export default function Sidebar({
             ))}
           </ul>
         </div>
-        <NavItem
-          isOpen={isOpen}
-          currentView={currentView}
-          viewType="completed"
-          onClick={() => handleItemClick("completed")}
-          icon={<MdOutlineNoteAlt className="text-2xl" />}
-          label="Completed"
-        />
       </ul>
     </div>
   );
@@ -142,8 +142,8 @@ export default function Sidebar({
 
 const NavItem = ({ isOpen, currentView, viewType, onClick, icon, label }) => (
   <li
-    className={`p-4 flex items-center relative whitespace-nowrap overflow-hidden duration-300 hover:bg-gray-600 ${
-      currentView === viewType ? "bg-gray-700" : ""
+    className={`p-4 flex items-center relative whitespace-nowrap overflow-hidden duration-300 hover:bg-gray-600  ${
+      currentView === viewType ? "bg-gray-900/50" : ""
     }`}
     onClick={onClick}
   >

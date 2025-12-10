@@ -56,7 +56,7 @@ export default function App() {
   ).length;
 
   return (
-    <div className="flex bg-gray-900 text-white min-h-screen font-poppins">
+    <div className="content-wrapper flex text-white min-h-screen font-poppins">
       <Sidebar
         isOpen={sidebarOpen}
         onToggle={toggleSidebar}

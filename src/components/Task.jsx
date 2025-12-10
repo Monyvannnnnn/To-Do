@@ -12,16 +12,16 @@ export default function Task({
   const completedTasks = tasks.filter((task) => task.isCompleted).length;
 
   return (
-    <div className="bg-gray-800 border p-6 mt-8">
+    <div className="bg-gray-800/50 border border-gray-600 p-6 mt-8">
       <div className="flex justify-between items-center mb-6">
         <div>
-          <p className="text-lg font-semibold text-white">
+          <p className="text-lg  text-white">
             Tasks:{" "}
             <span className="text-white">{tasksQuantity}</span>
           </p>
         </div>
         <div>
-          <p className="text-lg font-semibold text-white">
+          <p className="text-lg  text-white">
             Completed:{" "}
             <span className="text-white">
               {completedTasks} of {tasksQuantity}
