@@ -5,6 +5,7 @@ export default function Task({
   tasks,
   onDelete,
   onComplete,
+  onUpdate,
   currentView,
   groups,
 }) {
@@ -16,8 +17,7 @@ export default function Task({
       <div className="flex justify-between items-center mb-6">
         <div>
           <p className="text-lg  text-white">
-            Tasks:{" "}
-            <span className="text-white">{tasksQuantity}</span>
+            Tasks: <span className="text-white">{tasksQuantity}</span>
           </p>
         </div>
         <div>
@@ -36,6 +36,7 @@ export default function Task({
             task={task}
             onDelete={onDelete}
             onComplete={onComplete}
+            onUpdate={onUpdate}
             currentView={currentView}
             groups={groups}
           />

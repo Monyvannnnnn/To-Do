@@ -86,6 +86,19 @@ function useTaskManager() {
     setTasksAndSave(newTasks);
   }
 
+  function updateTask(taskId, newTitle) {
+    const newTasks = tasks.map((task) => {
+      if (task.id === taskId) {
+        return {
+          ...task,
+          title: newTitle,
+        };
+      }
+      return task;
+    });
+    setTasksAndSave(newTasks);
+  }
+
   return {
     tasks,
     groups,
@@ -95,6 +108,7 @@ function useTaskManager() {
     deleteAll,
     addGroup,
     deleteGroup,
+    updateTask,
   };
 }
 
